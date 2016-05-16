@@ -1,0 +1,203 @@
+body,div,.explorer,
+.explorer-grid,.explorer-list,.explorer-item-list,
+.explorer-xs,.explorer-sm,.explorer-md,.explorer-lg,
+.explorer-item,
+.explorer-item-details,.explorer-item-details>[class^=item-]
+{
+    margin:0;
+    padding:0;
+}
+.explorer{
+    -webkit-user-select:none;
+    position:relative;
+}
+.explorer>.explorer-item-list,
+.explorer .explorer-item-details
+{
+    list-style:none;
+    display:block;
+}
+.explorer.explorer-grid>.explorer-item-list{
+    display: inline-block;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item:hover>.explorer-item-details{
+    background-color:rgba(0,31,255,.08);
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item.active{
+    box-shadow:0 0 0 1px rgba(0,31,255,.2);
+    background-color:rgba(0,31,255,.1);
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item{
+    float:left;
+    display:block;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>[class^=item-]{
+    display:block;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    background-size:100%;
+    margin:0 auto;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details{
+    padding:8px;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    text-align: center;
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    /*text-overflow: clip ellipsis clip 0 3ch;*/
+    text-overflow: ellipsis;
+}
+.explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name[contenteditable]{
+    outline: none;
+    outline: 1px solid #666;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+.explorer.explorer-grid.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details{
+    padding:5px;
+}
+.explorer.explorer-grid.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details{
+    padding:3px;
+}
+.explorer.explorer-grid.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-check{
+    position: absolute;
+    margin: -4px;
+}
+.explorer.explorer-grid.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    height:32px;
+    width:32px;
+}
+.explorer.explorer-grid.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    font-size:10px;
+    -webkit-transform: scale(0.83);
+    width: 72px;
+    max-width:72px;
+}
+.explorer.explorer-grid.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    height:48px;
+    width:48px;
+}
+.explorer.explorer-grid.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    font-size:13px;
+    width: 78px;
+    max-width: 78px;
+}
+.explorer.explorer-grid.explorer-md>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    height:64px;
+    width:64px;
+}
+.explorer.explorer-grid.explorer-md>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    font-size:14px;
+    width: 84px;
+    max-width: 84px;
+}
+.explorer.explorer-grid.explorer-lg>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    height:72px;
+    width:72px;
+}
+.explorer.explorer-grid.explorer-lg>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    font-size:15px;
+    width:90px;
+    max-width: 90px;
+}
+.explorer.explorer-grid.explorer-xs>.explorer-item-list>.explorer-item{
+    margin:6px;
+}
+.explorer.explorer-grid.explorer-sm>.explorer-item-list>.explorer-item{
+    margin:10px;
+}
+.explorer.explorer-grid.explorer-md>.explorer-item-list>.explorer-item{
+    margin:12px;
+}
+.explorer.explorer-grid.explorer-lg>.explorer-item-list>.explorer-item{
+    margin:16px;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item+.explorer-item:last-child{
+    border-bottom:1px solid #ddd;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item+.explorer-item{
+    border-top:1px solid #ddd;
+    margin-top: -1px;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details{
+    display:block;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details>[class^=item-]{
+    display:inline-block;
+    vertical-align: middle;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    background-size: 100%;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details>.item-check{
+    margin:auto 12px;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    margin-left: 8px;
+    font-size:14px;
+}
+.explorer.explorer-list.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details>.item-check,
+.explorer.explorer-list.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-check{
+    margin:auto 8px;
+}
+.explorer.explorer-list.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name,
+.explorer.explorer-list.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-name{
+    margin-left: 4px;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    margin:4px 12px;
+}
+.explorer.explorer-list.explorer-xs>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    width:24px;
+    height:24px;
+}
+.explorer.explorer-list.explorer-sm>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    width:32px;
+    height:32px;
+}
+.explorer.explorer-list.explorer-md>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    width:48px;
+    height:48px;
+}
+.explorer.explorer-list.explorer-lg>.explorer-item-list>.explorer-item>.explorer-item-details>.item-icon{
+    width:64px;
+    height:64px;
+}
+.explorer.hide-check>.explorer-item-list>.explorer-item>.explorer-item-details>.item-check{
+    display:none;
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item:hover>.explorer-item-details{
+    background-color:rgba(0,31,255,.08);
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item.active {
+    background-color:rgba(0,31,255,.16);
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item.active+.explorer-item,
+.explorer.explorer-list>.explorer-item-list>.explorer-item.active,
+.explorer.explorer-list>.explorer-item-list>.explorer-item:hover {
+    border-top-color:rgba(0,31,255,.2);
+}
+.explorer.explorer-list>.explorer-item-list>.explorer-item:last-child.active,
+.explorer.explorer-list>.explorer-item-list>.explorer-item:hover:last-child{
+    border-bottom-color:rgba(0,31,255,.2);
+}
+.drag-selector{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100px;
+    height:100px;
+    z-index: 1011;
+    background-color:rgba(0,31,255,.15);
+    outline: 1px solid rgba(0,31,255,.3);
+}
+.drag-selector.show{
+    display:block;
+}
