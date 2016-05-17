@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>自定义模板</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../pack/explorer.min.css">
+		<style type="text/css">
+			.icon-image-file{
+                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128301&size=128")
+            }
+            .icon-text-file{
+                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128298&size=128");
+            }
+            .icon-music-file{
+                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128306&size=128");
+            }
+			#explorer{
+				border:1px solid #ddd;
+			}
+			.toolbar{
+				margin:15px 0;
+			}
+            .explorer.explorer-list .item-time{
+                margin-left:40px!important;
+                font-size:12px;
+            }
+            .explorer.explorer-list .item-time>.time-desc{
+                color:#999;
+            }
+            .explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>.item-time{
+                display:none;
+            }
+		</style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>css</h5>
+<pre><code lang="css">
+    .explorer.explorer-list .item-time{
+        margin-left:40px!important;
+        font-size:12px;
+    }
+    .explorer.explorer-list .item-time>.time-desc{
+        color:#999;
+    }
+    .explorer.explorer-grid>.explorer-item-list>.explorer-item>.explorer-item-details>.item-time{
+        display:none;
+    }
+</code></pre>
+                    <h5>js</h5>
+<pre><code lang="javascript"><script type="text" style="display:block">
+    $("#explorer").explorer({
+        theme:"list",
+        data:[...],
+        template:function(){
+            return ["<ul class='explorer-item-details' title='名称：${cfg.name}\n修改日期：${cfg.time}'>",
+                        "<li class='item-check'><input type='checkbox'></li>",
+                        "<li class='item-icon ${cfg.icon}'></li>",
+                        "<li class='item-name'>${cfg.name}</li>",
+                        "<li class='item-time'><span class='time-desc'>修改日期：</span>${cfg.time}</li>",
+                    "</ul>"].join("");
+        }
+    });
+</script></code></pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 pull-right">
+                    <div class="toolbar pull-right">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <i class="glyphicon glyphicon-th-list"></i>
+                                <input type="radio" name="theme" value="list" checked>
+                            </label>
+                            <label class="btn btn-default">
+                                <i class="glyphicon glyphicon-th"></i>
+                                <input type="radio" name="theme" value="grid">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row explorer-container">
+				<div class="col-md-12">
+					<div id="explorer"></div>
+				</div>
+			</div>
+        </div>
+        <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../src/explorer.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            $("#explorer").explorer({
+                theme:"list",
+                data:[{
+                    cfg:{
+                        icon:"icon-text-file",
+                        name:"文本文档",
+                        time:"2016-05-15"
+                    }
+                },{
+                    cfg:{
+                        icon:"icon-image-file",
+                        name:"图像文件",
+                        time:"2016-05-15"
+                    }
+                },{
+                    cfg:{
+                        icon:"icon-music-file",
+                        name:"音乐文件",
+                        time:"2016-05-16"
+                    }
+                }],
+                template:function(){
+                    return ["<ul class='explorer-item-details' title='名称：${cfg.name}\n修改日期：${cfg.time}'>",
+                                "<li class='item-check'><input type='checkbox'></li>",
+                                "<li class='item-icon ${cfg.icon}'></li>",
+                                "<li class='item-name'>${cfg.name}</li>",
+                                "<li class='item-time'><span class='time-desc'>修改日期：</span>${cfg.time}</li>",
+                            "</ul>"].join("");
+                }
+            });
+            $("input[name=theme]").on("change",function(){
+                $("#explorer").data("explorer").update({
+                    theme:$(this).val()
+                });
+            });
+        </script>
+    </body>
+</html>
