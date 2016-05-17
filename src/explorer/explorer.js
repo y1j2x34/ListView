@@ -7,7 +7,7 @@
     var EXPLORER_ITEM_DATA_NAME = "explorer-item-data";
 
     var destroy = function(explorer, $elm){
-        explorer.off("*");
+        explorer.off(explorer.id);
         $elm.removeData(EXPLORER_DATA_NAME);
         $elm.find(".explorer").remove();
         $(document).off("keydown." + explorer.id).off("keyup." + explorer.id);
@@ -43,20 +43,24 @@
 
         var explorer = model.of("Explorer").create();
 
-        explorer.on("destroy.ui", function(e, item){
-            $list.find("#"+item.id).remove();
+        explorer.on(explorer.id+".remove", function(e, item){
+            var ids = [];
+			items.forEach(function(item){
+				ids.push(item.id);
+			});
+            $(selectElementsByIds(ids)).remove();
         });
-        function selectElementsByIds(ids){
-            var elements = [];
-            ids.forEach(function(id){
-                var element = document.getElementById(id);
-                if(element !== undefined){
-                    elements.push(element);
-                }
-            });
-            return elements;
-        }
-        explorer.on("select.ui", function(e, selects,lastSelects){
+        var selectElementsByIds = function(ids){
+			var elements = [];
+			ids.forEach(function(id){
+				var element = document.getElementById(id);
+				if(element !== undefined){
+					elements.push(element);
+				}
+			});
+			return elements;
+		};
+        explorer.on(explorer.id+".select", function(e, selects,lastSelects){
             var newSelects = this.class.relc(lastSelects, selects),
                 unselects = this.class.relc(selects, lastSelects);
 
@@ -87,7 +91,7 @@
                 ;
             }
         });
-        explorer.on("create.ui", function(e,item){
+        explorer.on(explorer.id+".create", function(e,item){
             var $item = $("<li>");
             $item.attr({
                 id:item.id
@@ -107,7 +111,7 @@
             $item.data(EXPLORER_ITEM_DATA_NAME, item);
             $list.append($item);
         });
-        explorer.on("updateTheme", function(e, theme){
+        explorer.on(explorer.id+".updateTheme", function(e, theme){
             $elm
             .removeClass("explorer-grid")
             .removeClass("explorer-list")
@@ -115,7 +119,7 @@
             ;
             options.theme = theme;
         });
-        explorer.on("updateSpec", function(e, spec){
+        explorer.on(explorer.id+".updateSpec", function(e, spec){
             var supportedSpecs = ["xs","sm","md","lg"];
             supportedSpecs.forEach(function(spec){
                 $elm.removeClass("explorer-"+spec);
@@ -124,7 +128,7 @@
             options.spec = spec;
         });
         // explorer.update({check:true})
-        explorer.on("updateCheck", function(e, check){
+        explorer.on(explorer.id+".updateCheck", function(e, check){
             switch(check + ""){
             case "true":
             case "show":

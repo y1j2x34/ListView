@@ -61,6 +61,7 @@
             var item = ns.of("Item").create(this.id+"-"+this.itemSeq(),data);
             this.items[item.id] = item;
             this.itemIds.push(item.id);
+            this.trigger(this.id+".create",item);
             this.trigger("create",item);
         },
         deleteItem: function(ids){
@@ -81,8 +82,10 @@
                 that.itemIds.splice(index, 1);
                 var selIndex = that.selects.indexOf(item.id);
                 that.selects.splice(selIndex, 1);
+                that.trigger(this.id+".removeItem", item);
                 that.trigger("removeItem", item);
             });
+            that.trigger(this.id+".remove", itemsToBeRemoved);
             that.trigger("remove", itemsToBeRemoved);
         },
         update: function(options){
@@ -98,12 +101,15 @@
                 });
             }
             if(options.theme && that.class.SUPPORTED_THEMES.indexOf(options.theme) !== -1){
+                that.trigger(this.id+".updateTheme",options.theme);
                 that.trigger("updateTheme",options.theme);
             }
             if(options.spec && that.class.SUPPORTED_SPECS.indexOf(options.spec) !== -1){
+                that.trigger(this.id+".updateSpec",options.spec);
                 that.trigger("updateSpec",options.spec);
             }
             if(that.class.SUPPORTED_CHECK_VALUES.indexOf(options.check+"") !== -1){
+                that.trigger(this.id+".updateCheck", options.check);
                 that.trigger("updateCheck", options.check);
             }
         },
@@ -122,6 +128,7 @@
                     that.selects.push(id);
                 }
             });
+            this.trigger(this.id+".select", this.selects, bselects);
             this.trigger("select", this.selects, bselects);
         },
         unselect: function(){
@@ -135,6 +142,7 @@
                     that.items[id].select(false);
                 }
             });
+            that.trigger(this.id+".select",that.selects,bselects);
             that.trigger("select",that.selects,bselects);
         },
         selectAll: function(){
@@ -156,7 +164,18 @@
                 }
             });
             return retItems;
-        }
+        },
+		off: function(name){
+			if(name === "*") return false;
+			if(typeof name === "string"){
+				var splited = name.split(".");
+				if(splited[1] === "ui"){
+					return false;
+				}
+			}
+			var _super = this.__proto__.__proto__;
+			return _super.off.apply(this, arguments);
+		}
     })
     ;
 })();

@@ -98,7 +98,7 @@
     			name = undefined + "";
     		}
             if(name === "*"){
-                this.observers = {};
+                this.observers = this.$$opath.root = {};
                 return;
             }
     		var observers = this.$$opath.get(name);

@@ -1,3 +1,10 @@
+/*
+* @author y1j1x24
+* @version 1.0
+* @datetime 2016/05/16
+* @site https://github.com/y1j2x34/web-explorer
+*/
+
 "use strict";
 // jshint -W030
 !(function(){
@@ -39,7 +46,7 @@
             }
         }
         forEachProp(source, function(prop){
-            if(prop in dest){
+            if(dest.hasOwnProperty(prop)){
                 return;
             }
             if(ignoresMap[prop]){
@@ -358,7 +365,7 @@
     			name = undefined + "";
     		}
             if(name === "*"){
-                this.observers = {};
+                this.observers = this.$$opath.root = {};
                 return;
             }
     		var observers = this.$$opath.get(name);
@@ -400,6 +407,7 @@
     	}
     });
 })();
+"use strict";
 (function(){
     var sequence = function(){
         var seq = 0;
@@ -451,7 +459,7 @@
             this.callSuper();
             this.items = {};
             this.itemIds = [];
-            this.id = "exp-"+this["class"].nextSeq();
+            this.id = "exp-"+this.class.nextSeq();
             this.selects = [];
             this.itemSeq = sequence();
         },
@@ -462,6 +470,7 @@
             var item = ns.of("Item").create(this.id+"-"+this.itemSeq(),data);
             this.items[item.id] = item;
             this.itemIds.push(item.id);
+            this.trigger(this.id+".create",item);
             this.trigger("create",item);
         },
         deleteItem: function(ids){
@@ -482,8 +491,10 @@
                 that.itemIds.splice(index, 1);
                 var selIndex = that.selects.indexOf(item.id);
                 that.selects.splice(selIndex, 1);
+                that.trigger(that.id+".removeItem", item);
                 that.trigger("removeItem", item);
             });
+            that.trigger(this.id+".remove", itemsToBeRemoved);
             that.trigger("remove", itemsToBeRemoved);
         },
         update: function(options){
@@ -498,13 +509,16 @@
                     that.createItem(data);
                 });
             }
-            if(options.theme && that["class"].SUPPORTED_THEMES.indexOf(options.theme) !== -1){
+            if(options.theme && that.class.SUPPORTED_THEMES.indexOf(options.theme) !== -1){
+                that.trigger(this.id+".updateTheme",options.theme);
                 that.trigger("updateTheme",options.theme);
             }
-            if(options.spec && that["class"].SUPPORTED_SPECS.indexOf(options.spec) !== -1){
+            if(options.spec && that.class.SUPPORTED_SPECS.indexOf(options.spec) !== -1){
+                that.trigger(this.id+".updateSpec",options.spec);
                 that.trigger("updateSpec",options.spec);
             }
-            if(that["class"].SUPPORTED_CHECK_VALUES.indexOf(options.check+"") !== -1){
+            if(that.class.SUPPORTED_CHECK_VALUES.indexOf(options.check+"") !== -1){
+                that.trigger(this.id+".updateCheck", options.check);
                 that.trigger("updateCheck", options.check);
             }
         },
@@ -523,6 +537,7 @@
                     that.selects.push(id);
                 }
             });
+            this.trigger(this.id+".select", this.selects, bselects);
             this.trigger("select", this.selects, bselects);
         },
         unselect: function(){
@@ -536,6 +551,7 @@
                     that.items[id].select(false);
                 }
             });
+            that.trigger(this.id+".select",that.selects,bselects);
             that.trigger("select",that.selects,bselects);
         },
         selectAll: function(){
@@ -557,10 +573,22 @@
                 }
             });
             return retItems;
-        }
+        },
+		off: function(name){
+			if(name === "*") return false;
+			if(typeof name === "string"){
+				var splited = name.split(".");
+				if(splited[1] === "ui"){
+					return false;
+				}
+			}
+			var _super = this.__proto__.__proto__;
+			return _super.off.apply(this, arguments);
+		}
     })
     ;
 })();
+"use strict";
 (function($){
     var model = FClass.namespace("com.vgerbot.ui.explorer.model");
     var utils = FClass.namespace("com.vgerbot.utils");
@@ -569,7 +597,7 @@
     var EXPLORER_ITEM_DATA_NAME = "explorer-item-data";
 
     var destroy = function(explorer, $elm){
-        explorer.off("*");
+        explorer.off(explorer.id);
         $elm.removeData(EXPLORER_DATA_NAME);
         $elm.find(".explorer").remove();
         $(document).off("keydown." + explorer.id).off("keyup." + explorer.id);
@@ -590,6 +618,16 @@
             return opath.get(path);
         });
     };
+	var selectElementsByIds = function(ids){
+		var elements = [];
+		ids.forEach(function(id){
+			var element = document.getElementById(id);
+			if(element !== undefined){
+				elements.push(element);
+			}
+		});
+		return elements;
+	}
     var createExplorer = function(options, element){
         var $elm = $("<div>");
         var $list = $("<ul>");
@@ -605,22 +643,17 @@
 
         var explorer = model.of("Explorer").create();
 
-        explorer.on("destroy.ui", function(e, item){
-            $list.find("#"+item.id).remove();
+        explorer.on(explorer.id+".remove", function(e, items){
+			var ids = [];
+			items.forEach(function(item){
+				ids.push(item.id);
+			});
+            $(selectElementsByIds(ids)).remove();
         });
-        function selectElementsByIds(ids){
-            var elements = [];
-            ids.forEach(function(id){
-                var element = document.getElementById(id);
-                if(element !== undefined){
-                    elements.push(element);
-                }
-            });
-            return elements;
-        }
-        explorer.on("select.ui", function(e, selects,lastSelects){
-            var newSelects = this["class"].relc(lastSelects, selects),
-                unselects = this["class"].relc(selects, lastSelects);
+        
+        explorer.on(explorer.id+".select", function(e, selects,lastSelects){
+            var newSelects = this.class.relc(lastSelects, selects),
+                unselects = this.class.relc(selects, lastSelects);
 
             if(unselects.length > 0){
                 var items = selectElementsByIds(unselects);
@@ -649,7 +682,7 @@
                 ;
             }
         });
-        explorer.on("create.ui", function(e,item){
+        explorer.on(explorer.id+".create", function(e,item){
             var $item = $("<li>");
             $item.attr({
                 id:item.id
@@ -669,7 +702,7 @@
             $item.data(EXPLORER_ITEM_DATA_NAME, item);
             $list.append($item);
         });
-        explorer.on("updateTheme", function(e, theme){
+        explorer.on(explorer.id+".updateTheme", function(e, theme){
             $elm
             .removeClass("explorer-grid")
             .removeClass("explorer-list")
@@ -677,7 +710,7 @@
             ;
             options.theme = theme;
         });
-        explorer.on("updateSpec", function(e, spec){
+        explorer.on(explorer.id+".updateSpec", function(e, spec){
             var supportedSpecs = ["xs","sm","md","lg"];
             supportedSpecs.forEach(function(spec){
                 $elm.removeClass("explorer-"+spec);
@@ -686,7 +719,7 @@
             options.spec = spec;
         });
         // explorer.update({check:true})
-        explorer.on("updateCheck", function(e, check){
+        explorer.on(explorer.id+".updateCheck", function(e, check){
             switch(check + ""){
             case "true":
             case "show":
@@ -874,7 +907,7 @@
         });
         $elm.dragSelector();
         element.empty().append($elm);
-		if(options.data instanceof Array){
+        if(options.data instanceof Array){
             explorer.update({
                 data:options.data
             });
@@ -888,7 +921,7 @@
         if(options === false){
             return this.each(function(index, element){
                 var $elm = $(element);
-                var explorer = $elm.data("explorer");
+                var explorer = $elm.data(EXPLORER_DATA_NAME);
                 if(explorer instanceof model.of("Explorer")){
                     destroy(explorer, $elm);
                 }
@@ -897,7 +930,7 @@
         options = $.extend({
             theme   :   "grid",// list,grid
             spec    :   "md",// xs, sm, md, lg, xlg
-            template  :   itemTemplate,
+            template:   itemTemplate,
             data    :   [],
             check   :   "hide"
         },options);
