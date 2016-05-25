@@ -618,16 +618,6 @@
             return opath.get(path);
         });
     };
-	var selectElementsByIds = function(ids){
-		var elements = [];
-		ids.forEach(function(id){
-			var element = document.getElementById(id);
-			if(element !== undefined){
-				elements.push(element);
-			}
-		});
-		return elements;
-	}
     var createExplorer = function(options, element){
         var $elm = $("<div>");
         var $list = $("<ul>");
@@ -644,13 +634,22 @@
         var explorer = model.of("Explorer").create();
 
         explorer.on(explorer.id+".remove", function(e, items){
-			var ids = [];
+            var ids = [];
 			items.forEach(function(item){
 				ids.push(item.id);
 			});
             $(selectElementsByIds(ids)).remove();
         });
-        
+        var selectElementsByIds = function(ids){
+			var elements = [];
+			ids.forEach(function(id){
+				var element = document.getElementById(id);
+				if(element !== undefined){
+					elements.push(element);
+				}
+			});
+			return elements;
+		};
         explorer.on(explorer.id+".select", function(e, selects,lastSelects){
             var newSelects = this.class.relc(lastSelects, selects),
                 unselects = this.class.relc(selects, lastSelects);

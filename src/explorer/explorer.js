@@ -9,6 +9,7 @@
     var destroy = function(explorer, $elm){
         explorer.off(explorer.id);
         $elm.removeData(EXPLORER_DATA_NAME);
+        $elm.dragSelector(false);
         $elm.find(".explorer").remove();
         $(document).off("keydown." + explorer.id).off("keyup." + explorer.id);
     };
@@ -43,7 +44,7 @@
 
         var explorer = model.of("Explorer").create();
 
-        explorer.on(explorer.id+".remove", function(e, item){
+        explorer.on(explorer.id+".remove", function(e, items){
             var ids = [];
 			items.forEach(function(item){
 				ids.push(item.id);
@@ -347,18 +348,40 @@
             var $elm = $(element);
             var explorer = $elm.data(EXPLORER_DATA_NAME);
             if(explorer instanceof model.of("Explorer")){
+                explorer.update(options);
                 return;
             }
             explorer = createExplorer(options, $elm);
             $elm.data(EXPLORER_DATA_NAME, explorer);
         });
     };
-    $.fn.dragSelector = function(){
+    $.fn.dragSelector = function(notDestroy){
+        if(notDestroy === true){
+            return this.each(function(index, element){
+                var $elm = $(element);
+                var $sel = $elm.find(".drag-selector");
+                if($sel.length < 1){
+                    return;
+                }
+                var eventId = $sel.data("eventId");
+                if(eventId === undefined){
+                    return;
+                }
+                $elm.off("mousedown."+eventId);
+                $(document).off("mousemove."+eventId);
+            });
+        }
         return this.each(function(index, element){
+            var eventId = new Date().getTime() + index;
             var $elm = $(element);
             var $sel = $("<div>");
+
+            $sel.data("eventId", eventId);
+
             $sel.addClass("drag-selector");
             $sel.appendTo($elm);
+
+
             function mousePosition(e){
                 var $cur = $(e.target);
                 var mx,my;
@@ -397,8 +420,8 @@
                     $elm.trigger("dragSelect",box);
                 };
             };
-            var eventId = "mousemove."+ Math.random();
-            $elm.on("mousedown", function(e){
+            var mouseMoveEvent = "mousemove."+ eventId;
+            $elm.on("mousedown."+eventId, function(e){
                 if(e.button !== 0){
                     return;
                 }
@@ -407,14 +430,14 @@
                     height:0
                 });
                 var mp = mousePosition(e);
-                $elm.on(eventId, selector(mp.left, mp.top));
+                $elm.on(mouseMoveEvent, selector(mp.left, mp.top));
             });
-            $(document).on("mouseup", function(e){
+            $(document).on("mouseup."+eventId, function(e){
                 if(e.button !== 0){
                     return;
                 }
                 $sel.removeClass("show");
-                $elm.off(eventId);
+                $elm.off(mouseMoveEvent);
             });
         });
     };
