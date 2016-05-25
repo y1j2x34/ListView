@@ -108,9 +108,22 @@
                             Object.defineProperty(this, name, new ConstConfigure(value));
                         }),
         callSuper   :   new ConstConfigure(function(){
-                            // jshint -W103  
-                            var superObj = this.__proto__.__proto__;
-                            this.superclass.constructor.apply(superObj,arguments);
+                            var step = this.__step__;
+                            if(step == undefined){
+                            	step = this.class;
+                            }else{
+                            	step = step.superclass;
+                            }
+                            Object.defineProperty(this, "__step__",{
+                            	value:step,
+                            	enumerable:false,
+                            	writeable:false,
+                            	configurable:true
+                            });
+                            step.superclass.constructor.apply(this,arguments);
+                            if(step.superclass === Sup){
+                            	delete this.__step__;
+                            }
                         })
     });
 
