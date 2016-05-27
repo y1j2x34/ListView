@@ -4,7 +4,6 @@
 * @datetime 2016/05/16
 * @site https://github.com/y1j2x34/web-explorer
 */
-
 "use strict";
 // jshint -W030
 !(function(){
@@ -46,7 +45,7 @@
             }
         }
         forEachProp(source, function(prop){
-            if(dest.hasOwnProperty(prop)){
+            if(prop in dest){
                 return;
             }
             if(ignoresMap[prop]){
@@ -107,7 +106,34 @@
     Object.defineProperties(Sup,{
         create      :   new ConstConfigure(_newInstance),
         classname   :   new ConstConfigure("Sup"),
-        constructor :   new ConstConfigure(Sup)
+        constructor :   new ConstConfigure(Sup),
+        isInstance  :   new ConstConfigure(function(obj){
+                            return obj instanceof this;
+                        }),
+        is          :   new ConstConfigure(function(type){
+            return this === type || this === classes[type];
+        }),
+        isSupTypeOf :   new ConstConfigure(function(type){
+            if(typeof type === "string"){
+                type = classes[type];
+            }
+            while(type !== null && type !== Sup){
+                type = type.superclass;
+                if(type === this){
+                    return true;
+                }
+            }
+            return false;
+        }),
+        isSubTypeOf :  new ConstConfigure(function(type){
+            if(typeof type === "string"){
+                type = classes[type];
+            }
+            if(!type || type === this || typeof type.isSupTypeOf === "undefined"){
+                return false;
+            }
+            return type.isSupTypeOf(this);
+        })
     });
     Object.defineProperties(Sup.prototype, {
         superclass  :   new ConstConfigure(Sup),
@@ -115,9 +141,22 @@
                             Object.defineProperty(this, name, new ConstConfigure(value));
                         }),
         callSuper   :   new ConstConfigure(function(){
-                            // jshint -W103  
-                            var superObj = this.__proto__.__proto__;
-                            this.superclass.constructor.apply(superObj,arguments);
+                            var step = this.__step__;
+                            if(step === undefined){
+                                step = this.class;
+                            }else{
+                                step = step.superclass;
+                            }
+                            Object.defineProperty(this, "__step__",{
+                                value:step,
+                                enumerable:false,
+                                writeable:false,
+                                configurable:true
+                            });
+                            step.superclass.constructor.apply(this,arguments);
+                            if(step.superclass === Sup){
+                                delete this.__step__;
+                            }
                         })
     });
 
@@ -205,37 +244,75 @@
         }
         return createClass(def);
     }
-    function _namespace(ns){
-        var caller = {
-            namespace : !ns?"":ns + "."
-        };
-        return {
-            of:function(name){
-                return classes[caller.namespace + name];
-            },
-            create:function(){
-                var clazz =  _create.apply(caller,arguments);
-                if(!!caller.namespace){
-                    classes[caller.namespace + clazz.name] = clazz;
-                }else{
-                    classes[clazz.name] = clazz;
-                }
-                return this;
-            },
-            classes:function(){
-                var cloned = {};
-                for(var name in classes){
-                    if(name.indexOf(caller.namespace) === 0){
-                        cloned[name] = classes[name];
-                    }
-                }
-                return cloned;
+    var Namespace = _create("Namespace",{
+        init:function(ns){
+            this.const("name", !ns?"":ns + ".");
+        },
+        of:function(name){
+            return classes[this.name + name];
+        },
+        create : function(){
+            var clazz =  _create.apply(null,arguments);
+            if(!!this.name){
+                classes[this.name + clazz.name] = clazz;
+            }else{
+                classes[clazz.name] = clazz;
             }
-        };
-    }
-    window.FClass = _namespace("");
-    window.FClass.namespace = _namespace;
+            return this;
+        },
+        classes : function(){
+            var cloned = {};
+            for(var name in classes){
+                if(name.indexOf(this.name) === 0){
+                    cloned[name] = classes[name];
+                }
+            }
+            return cloned;
+        }
+    });
+
+    var FClass = Namespace.create("");
+    FClass.run = function(namespaces,func,caller){
+        if(typeof namespaces === "function"){
+            func = namespaces;
+            namespaces = [];
+        }
+        if(!(namespaces instanceof Array && (typeof func === "function"))){
+            throw new Error("illegal arguments");
+        }
+        namespaces.push("");
+        var namespaceArray = [];
+        namespaces.forEach(function(ns){
+            if(!(ns instanceof Namespace)){
+                ns = Namespace.create(ns);
+            }
+            namespaceArray.push(ns);
+        });
+        var funcStr = func.toString();
+        var ilb = funcStr.indexOf('(');
+        var irb = funcStr.indexOf(')',ilb);
+        var argStr = funcStr.substring(ilb+1, irb);
+        var argNames = argStr.split(/\s*,\s*/);
+        var args = [];
+        argNames.forEach(function(name){
+            for(var i=0;i<namespaceArray.length;i++){
+                var ns = namespaceArray[i];
+                var cls = ns.of(name);
+                if(cls !== undefined){
+                    args.push(cls);
+                    return;
+                }
+            }
+            throw new Error("class not found : "+name);
+        });
+        return func.apply(caller, args);
+    };
+    FClass.namespace = function(ns){
+        return Namespace.create(ns);
+    };
+    window.FClass = FClass;
 })();
+
 (function(){
     function defaultCallback(key,node){
         return node || {};
