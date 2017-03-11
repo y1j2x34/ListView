@@ -1,0 +1,207 @@
+@item-size-names: xs, sm, md, lg;
+
+@grid-item-icon-sizes: 32px, 48px, 64px, 72px;
+@grid-item-font-sizes: 10px, 13px, 14px, 15px;
+@grid-item-margins: 6px, 10px, 12px, 16px;
+@grid-item-details-paddings: 3px, 5px, 0, 0;
+@grid-tiem-name-widths: 72px, 78px, 84px, 90px;
+
+@list-item-font-sizes: 15px, 15px, 15px, 15px;
+@list-item-icon-sizes: 24px, 32px, 48px, 64px;
+@list-item-details-paddings: 0px,0px,0px,0px;
+@list-item-margins: 0px, 0px, 0px, 0px;
+@list-item-nam-widths: auto, auto, auto, auto;
+
+
+@color: rgb(0,31,255);
+
+.bg(@opacity: 0){
+    background-color:fade(@color, @opacity);
+}
+
+.listview{
+    position: relative;
+    user-select: none;
+
+    .listview-item-details,
+    >.listview-item-list{
+        list-style: none;
+    }
+    .item-icon{
+        background-size: 100%;
+    }
+    &.listview-grid{
+        >.listview-xs{
+            .listview-item-details{
+                padding: 3px;
+            }
+            .item-ceck{
+                position: absolute;
+
+                margin: -4px;
+            }
+            .item-name{
+                -webkit-transform: scale(.83);
+            }
+        }
+        >.listview-sm{
+            .listview-item-details{
+                padding: 5px;
+            }
+        }
+        >.listview-item-list{
+            display: inline-block;
+            >.listview-item{
+                display: block;
+                float: left;
+                &.active{
+                    .bg(10%);
+                    box-shadow: 0 0 0 1px fade(@color, 20%);
+                }
+                &:hover>.listview-item-details{
+                    .bg(8%);
+                }
+                >.listview-item-details{
+                    padding: 8px;
+                    >.item-name, >.item-icon, >.item-check{
+                        display: block;
+                    }
+                    >.item-icon{
+                        margin: 0 auto;
+                    }
+                    >.item-name{
+                        overflow: hidden;
+
+                        max-width: 90px;
+
+                        text-align: center;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        &[contenteditable]{
+                            overflow: hidden;
+
+                            white-space: normal;
+                            text-overflow: ellipsis;
+                            word-wrap: break-word;
+                            word-break: break-all;
+
+                            outline: 1px solid #666;
+                            background-color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.listview-list{
+        >.listview-item-item-list{
+            >.listview-item:hover > .listview-item-detail{
+                .bg(8%);
+            }
+            >.listview-item.active{
+                .bg(16%);
+            }
+            >.listview-item.active,
+            >.listview-item.active+.listview-item,
+            >.listview-item:hover{
+                border-top-color: fade(@color, 20%);
+            }
+            >.listview-item:last-child.active,
+            >.listview-item:hover:last-child{
+                border-bottom-color: fade(@color, 20%);
+            }
+        }
+        .listview-item-details{
+            display: block;
+            >.item-check,
+            >.item-name,
+            >.item-icon {
+                display: inline-block;
+
+                vertical-align: middle;
+            }
+            >.item-check{
+                margin: auto 12px;
+            }
+            >.item-name{
+                font-size: 14px;
+                margin-left: 8px;
+            }
+            >.item-icon{
+                margin: 4px 12px;
+            }
+        }
+        .listview-item-list > .listview-item:last-child{
+            border-bottom: 1px solid #ddd;
+        }
+        >.listview-item-list > .listview-item+.listview-item
+        {
+            margin-top: -1px;
+            border-top: 1px solid #ddd;
+        }
+        &.listview-sm, &.listview-xs
+        {
+            .item-check{
+                margin: auto 8px;
+            }
+            .item-name{
+                margin-left: 4px;
+            }
+        }
+    }
+}
+.hide-check .item-check{
+    display: none;
+}
+
+.item( @type, @icon-sizes, @font-sizes, @margins, @paddings, @name-widths, @i: length(@item-size-names)) when (@i > 0) {
+    @size-name: extract(@item-size-names, @i);
+    @size-value: extract(@icon-sizes, @i);
+    @font-size-value: extract(@font-sizes, @i);
+    @margin-value: extract(@margins, @i);
+    @padding-value: extract(@paddings, @i);
+    @name-width: extract(@name-widths, @i);
+
+    .listview-@{type}.listview-@{size-name}{
+        .item-icon{
+            width: @size-value;
+            height: @size-value;
+        }
+        .listview-item-details{
+            padding: @padding-value;
+        }
+        .item-name{
+            font-size: @font-size-value;
+            width: @name-width;
+            max-width: @name-width;
+        }
+        .listview-item{
+            margin:@margin-value;
+        }
+    }
+    .item(@type, @icon-sizes,@font-sizes, @margins, @paddings, @name-widths, @i - 1);
+}
+
+.item(grid, @grid-item-icon-sizes, @grid-item-font-sizes, @grid-item-margins, @grid-item-details-paddings, @grid-tiem-name-widths);
+.item(list, @list-item-icon-sizes, @list-item-font-sizes, @list-item-margins, @list-item-details-paddings, @grid-tiem-name-widths);
+
+
+.drag-selector
+{
+    position: absolute;
+    z-index: 1011;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100px;
+    height: 100px;
+
+    outline: 1px solid fade(@color, 30%);
+    .bg(15%);
+}
+.drag-selector.show
+{
+    display: block;
+}

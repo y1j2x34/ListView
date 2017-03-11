@@ -3,8 +3,8 @@
 	<head>
 		<title>主题&#38;大小</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../pack/explorer.min.css">
+        <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/src/style/listview.css">
 		<style type="text/css">
 			.icon-image-file{
                 background:url("http://www.easyicon.net/api/resizeApi.php?id=1128301&size=128")
@@ -15,7 +15,7 @@
             .icon-music-file{
                 background:url("http://www.easyicon.net/api/resizeApi.php?id=1128306&size=128");
             }
-			#explorer{
+			#listview{
 				border:1px solid #ddd;
 			}
 			.toolbar{
@@ -38,13 +38,13 @@
                 <div class="col-md-12 padding-5">
                     <h3>修改主题和大小</h3>
 <pre><code>
-    var explorer = $("#explorer").data("explorer");
+    var listview = $("#listview").data("listview");
     // 修改主题
-    explorer.update({
+    listview.update({
         theme:"list" // or "grid"
     });
     // 修改大小
-    explorer.update({
+    listview.update({
         spec:"xs"// or sm or md or lg
     });
 </code></pre>
@@ -53,8 +53,8 @@
             <h3>演示</h3>
 			<div class="row">
 				<div class="col-md-3 toolbar">
-					<a id="create-explorer-btn" class="btn btn-primary">create</a>
-					<a id="destroy-explorer-btn" class="btn btn-danger">destroy</a>
+					<a id="create-listview-btn" class="btn btn-primary">create</a>
+					<a id="destroy-listview-btn" class="btn btn-danger">destroy</a>
 				</div>
                 <div class="col-md-6 pull-right">
                     <div class="toolbar pull-right">
@@ -85,84 +85,13 @@
                     </div>
                 </div>
 			</div>
-			<div class="row explorer-container">
+			<div class="row listview-container">
 				<div class="col-md-12">
-					<div id="explorer"></div>
+					<div id="listview"></div>
 				</div>
 			</div>
 
 		</div>
-		<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-        <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" charset="utf-8"></script>
-		<script type="text/javascript" src="../pack/explorer.min.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			var items = [{
-                cfg:{
-                    icon:"icon-text-file",
-                    name:"文本文档",
-                    time:"2016-05-15"
-                }
-            },{
-                cfg:{
-                    icon:"icon-image-file",
-                    name:"图像文件",
-                    time:"2016-05-15"
-                }
-            },{
-                cfg:{
-                    icon:"icon-music-file",
-                    name:"音乐文件",
-                    time:"2016-05-16"
-                }
-            }];
-
-			function create(){
-				var data = [];
-				for(var i=0;i< Math.random()*200;i++){
-					data.push(items[parseInt(Math.random()*items.length)]);
-				}
-
-				window.explorerElement = $("#explorer").explorer({
-					theme:$("input[name=theme]:checked").val(),
-                    spec:$("input[name=size]:checked").val(),
-					data:data
-				});
-			}
-			function destroy(){
-				window.explorerElement.explorer(false);
-				window.explorerElement = undefined;
-			}
-			create();
-			$("#create-explorer-btn").click(function(){
-				if(!window.explorerElement){
-					create();
-				}
-			});
-			$("#destroy-explorer-btn").click(function(){
-				if(window.explorerElement){
-					destroy();
-				}
-			});
-            $("input[name=size]").on("change",function(){
-                if(window.explorerElement){
-                    var explorer = window.explorerElement.data("explorer");
-                    if(explorer){
-                        explorer.update({
-                            spec:$(this).val()
-                        });
-                    }
-                }
-            });
-            $("input[name=theme]").on("change",function(){
-                if(window.explorerElement){
-                    var explorer = window.explorerElement.data("explorer");
-                    if(explorer){
-                        explorer.update({
-                            theme:$(this).val()
-                        });
-                    }
-                }
-            });
-		</script>
+		<script type="text/javascript"  src="/vendors/requirejs/require.js" data-main="themeAndSize" charset="utf-8"></script>
 	</body>
 </html>

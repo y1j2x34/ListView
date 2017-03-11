@@ -1,0 +1,11 @@
+{
+    "baseUrl": "./src/script",
+    "optimize": "none",
+    "wrapShim": true,
+    "logLevel": 0,
+    "paths": {
+        "jquery": "empty:",
+        "Class": "supports/Class",
+        "Subject": "supports/Subject"
+    }
+}

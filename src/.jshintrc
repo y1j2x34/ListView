@@ -1,0 +1,32 @@
+{
+    "esversion": 5,
+    "eqnull": false,
+    "debug": false,
+
+    "indent": 4,
+    "funcscope": false,
+    "loopfunc": false,
+    "multistr": false,
+    "notypeof": false,
+    "proto": false,
+    "shadow": false,
+    "supernew": false,
+    "validthis": false,
+
+    "eqeqeq": true,
+    "undef": true,
+    "unused": true,
+    "strict": true,
+    "globalstrict": false,
+
+    "mocha": true,
+
+    "globals": {
+        "define": true,
+        "require": true,
+        "expect": true,
+        "module": true,
+        "window": true,
+        "document": true
+    }
+}

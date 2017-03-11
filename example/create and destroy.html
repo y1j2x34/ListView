@@ -1,42 +1,68 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>web-explorer demo 1</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../pack/explorer.min.css">
-		<style type="text/css">
-			.icon-image-file{
-                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128301&size=128")
-            }
-            .icon-text-file{
-                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128298&size=128");
-            }
-            .icon-music-file{
-                background:url("http://www.easyicon.net/api/resizeApi.php?id=1128306&size=128");
-            }
-			#explorer{
-				border:1px solid #ddd;
-			}
-			.toolbar{
-				margin:15px 0;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="header">
-			<h6></h6>
-		</div>
-		<div class="container">
-			<div class="alert alert-info">
-				Ctrl+A 全选
-			</div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>创建和销毁</h3>
-<pre><code>
+
+<head>
+    <title>web-listview demo 1</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/style/listview.css">
+    <style type="text/css">
+        .icon-image-file {
+            background: url("http://www.easyicon.net/api/resizeApi.php?id=1128301&size=128")
+        }
+
+        .icon-text-file {
+            background: url("http://www.easyicon.net/api/resizeApi.php?id=1128298&size=128");
+        }
+
+        .icon-music-file {
+            background: url("http://www.easyicon.net/api/resizeApi.php?id=1128306&size=128");
+        }
+
+        #listview {
+            border: 1px solid #ddd;
+        }
+
+        .toolbar {
+            margin: 15px 0;
+        }
+
+        .listview-container {
+            height: 400px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h6></h6>
+    </div>
+    <div class="container">
+        <div class="alert alert-info">
+            Ctrl+A 全选
+        </div>
+
+        <h3>演示</h3>
+        <div class="row">
+            <div class="col-md-4 toolbar">
+                <a id="create-listview-btn" class="btn btn-primary">create</a>
+                <a id="destroy-listview-btn" class="btn btn-danger">destroy</a>
+            </div>
+            <div class="col-md-5">
+            </div>
+        </div>
+        <div class="row listview-container">
+            <div class="col-md-12">
+                <div id="listview"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>创建和销毁</h3>
+                <pre><code>
     // 创建
-    var explorer = $("#explorer").explorer({
+    var listview = $("#listview").listview({
         theme:"grid", // 可选
         spec:"md", // 可选
         data:[{
@@ -45,8 +71,9 @@
                 name:"文字"
             }
         },...] // 可选,使用update方法
-    });
-    explorer.update({
+    }).data("listview");
+    // 更新数据
+    listview.update({
         data:[{
             cfg:{
                 icon:"icon-image-file",
@@ -55,73 +82,15 @@
         },...]
     });
     // 销毁
-    $("#explorer").explorer(false);
+    $("#listview").listview(false);
 </code></pre>
-                </div>
             </div>
-            <h3>演示</h3>
-			<div class="row">
-				<div class="col-md-4 toolbar">
-					<a id="create-explorer-btn" class="btn btn-primary">create</a>
-					<a id="destroy-explorer-btn" class="btn btn-danger">destroy</a>
-				</div>
-				<div class="col-md-5">
-				</div>
-			</div>
-			<div class="row explorer-container">
-				<div class="col-md-12">
-					<div id="explorer"></div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-		<script type="text/javascript" src="../pack/explorer.min.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			var items = [{
-                cfg:{
-                    icon:"icon-text-file",
-                    name:"文本文档",
-                    time:"2016-05-15"
-                }
-            },{
-                cfg:{
-                    icon:"icon-image-file",
-                    name:"图像文件",
-                    time:"2016-05-15"
-                }
-            },{
-                cfg:{
-                    icon:"icon-music-file",
-                    name:"音乐文件",
-                    time:"2016-05-16"
-                }
-            }];
+        </div>
+    </div>
+    <script type="text/javascript" src="/vendors/requirejs/require.js" data-main="basic" charset="utf-8"></script>
+    <script type="text/javascript">
 
-			function create(){
-				var data = [];
-				for(var i=0;i< Math.random()*200;i++){
-					data.push(items[parseInt(Math.random()*items.length)]);
-				}
-				window.explorerElement = $("#explorer").explorer({
-					theme:"grid",
-					data:data
-				});
-			}
-			function destroy(){
-				window.explorerElement.explorer(false);
-				window.explorerElement = undefined;
-			}
-			create();
-			$("#create-explorer-btn").click(function(){
-				if(!window.explorerElement){
-					create();
-				}
-			});
-			$("#destroy-explorer-btn").click(function(){
-				if(window.explorerElement){
-					destroy();
-				}
-			});
-		</script>
-	</body>
+    </script>
+</body>
+
 </html>

@@ -1,0 +1,29 @@
+{
+    "webserver":{
+        "port": 8080,
+        "livereload": true,
+        "directoryListening": true,
+        "open": false
+    },
+    "source":{
+        "js":[
+            "src/script/*.js"
+        ]
+    },
+    "optimize": {
+        "dest": "./dist",
+        "useStrict": true,
+        "sourcemap": {
+            "initOptions": {
+
+            },
+            "writeOptions": {
+                "includeContent": true,
+                "debug": true
+            }
+        },
+        "uglify": {
+            "preserveComments": "license"
+        }
+    }
+}
