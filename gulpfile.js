@@ -54,7 +54,7 @@ function optimizejsTask() {
     for (var key in sourcemapWrieOptions) {
         sourcemapOptions[key] = sourcemapWrieOptions[key];
     }
-    gulp.src("src/script/main.js")
+    gulp.src("src/script/listview.js")
         .pipe(sourcemap.init(optimizeOptions.sourcemap.initOptions))
         .pipe(requirejsOptimize(amdOptions))
         .pipe(concat("listview.js"))

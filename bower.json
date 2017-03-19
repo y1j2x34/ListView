@@ -1,7 +1,18 @@
 {
   "name": "listview",
+  "version": "0.0.1",
   "description": "listview",
   "main": "gulpfile.js",
+  "ignores": [
+      ".bowerrc",
+      ".gitignore",
+      "example",
+      "gulp.options.json",
+      "gulpfile.js",
+      "package.json",
+      "src/.jshintrc",
+      "README.md"
+  ],
   "authors": [
     "y1j2x34"
   ],
@@ -10,7 +21,7 @@
     "listview",
     "jquery"
   ],
-  "homepage": "https://github.com/y1j2x34/ListView",
+  "homepage": "https://github.com/y1j2x34/listview",
   "dependencies": {
     "jquery": "2.0.3",
     "requirejs": "^2.3.3"

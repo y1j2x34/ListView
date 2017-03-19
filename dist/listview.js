@@ -1097,14 +1097,8 @@ define('listview.plugin',[
         });
     }
 });
-require.config({
-    "baseUrl": "/src/script",
-    "paths": {
-        "jquery": "/vendors/jquery/jquery.min",
-        "Class": "supports/Class",
-        "Subject": "supports/Subject"
-    }
-});
 require(["listview.plugin"]);
-define("main", function(){});
-
+define('listview',["jquery", "listview.plugin"],function($){
+    "use strict";
+    return $.fn.listview;
+});
