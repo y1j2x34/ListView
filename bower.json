@@ -2,7 +2,10 @@
   "name": "listview",
   "version": "0.0.1",
   "description": "listview",
-  "main": "gulpfile.js",
+  "main": [
+      "dist/listview.min.js",
+      "dist/listview.min.css"
+  ],
   "ignores": [
       ".bowerrc",
       ".gitignore",
@@ -16,7 +19,7 @@
   "authors": [
     "y1j2x34"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [
     "listview",
     "jquery"

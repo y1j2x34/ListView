@@ -1,0 +1,47 @@
+body,div,.listview,.listview-grid,.listview-list,.listview-item-list,.listview-xs,.listview-sm,.listview-md,.listview-lg,.listview-item,.listview-item-details,.listview-item-details>[class^=item-]{margin:0;padding:0}
+.listview{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.listview>.listview-item-list,.listview .listview-item-details{display:block;list-style:none}
+.listview-grid>.listview-item-list{display:inline-block}.listview-grid>.listview-item-list>.listview-item:hover>.listview-item-details{background-color:rgba(0,31,255,.08)}
+.listview-grid>.listview-item-list>.listview-item.active{background-color:rgba(0,31,255,.1);box-shadow:0 0 0 1px rgba(0,31,255,.2)}
+.listview-grid>.listview-item-list>.listview-item{display:block;float:left}
+.listview-grid>.listview-item-list>.listview-item>.listview-item-details>[class^=item-]{display:block}
+.listview-grid>.listview-item-list>.listview-item>.listview-item-details>.item-icon{margin:0 auto;background-size:100%}
+.listview-grid>.listview-item-list>.listview-item>.listview-item-details{padding:8px}
+.listview-grid>.listview-item-list>.listview-item>.listview-item-details>.item-name{overflow:hidden;max-width:90px;text-align:center;white-space:nowrap;text-overflow:ellipsis}
+.listview-grid>.listview-item-list>.listview-item>.listview-item-details>.item-name[contenteditable]{overflow:hidden;white-space:normal;text-overflow:ellipsis;word-wrap:break-word;word-break:break-all;outline:0;outline:1px solid #666;background-color:white}
+.listview-grid.listview-sm>.listview-item-list>.listview-item>.listview-item-details{padding:5px}
+.listview-grid.listview-xs>.listview-item-list>.listview-item>.listview-item-details{padding:3px}
+.listview-grid.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-check{position:absolute;margin:-4px}
+.listview-grid.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:32px;height:32px}
+.listview-grid.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-name{font-size:10px;width:72px;max-width:72px;-webkit-transform:scale(.83)}
+.listview-grid.listview-sm>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:48px;height:48px}
+.listview-grid.listview-sm>.listview-item-list>.listview-item>.listview-item-details>.item-name{font-size:13px;width:78px;max-width:78px}
+.listview-grid.listview-md>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:64px;height:64px}
+.listview-grid.listview-md>.listview-item-list>.listview-item>.listview-item-details>.item-name{font-size:14px;width:84px;max-width:84px}
+.listview-grid.listview-lg>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:72px;height:72px}
+.listview-grid.listview-lg>.listview-item-list>.listview-item>.listview-item-details>.item-name{font-size:15px;width:90px;max-width:90px}
+.listview-grid.listview-xs>.listview-item-list>.listview-item{margin:6px}
+.listview-grid.listview-sm>.listview-item-list>.listview-item{margin:10px}
+.listview-grid.listview-md>.listview-item-list>.listview-item{margin:12px}
+.listview-grid.listview-lg>.listview-item-list>.listview-item{margin:16px}
+.listview-list>.listview-item-list>.listview-item+.listview-item:last-child{border-bottom:1px solid #ddd}
+.listview-list>.listview-item-list>.listview-item+.listview-item{margin-top:-1px;border-top:1px solid #ddd}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details{display:block}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details>[class^=item-]{display:inline-block;vertical-align:middle}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details>.item-icon{background-size:100%}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details>.item-check{margin:auto 12px}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details>.item-name{font-size:14px;margin-left:8px}
+.listview-list.listview-sm>.listview-item-list>.listview-item>.listview-item-details>.item-check,.listview-list.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-check{margin:auto 8px}
+.listview-list.listview-sm>.listview-item-list>.listview-item>.listview-item-details>.item-name,.listview-list.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-name{margin-left:4px}
+.listview-list>.listview-item-list>.listview-item>.listview-item-details>.item-icon{margin:4px 12px}
+.listview-list.listview-xs>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:24px;height:24px}
+.listview-list.listview-sm>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:32px;height:32px}
+.listview-list.listview-md>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:48px;height:48px}
+.listview-list.listview-lg>.listview-item-list>.listview-item>.listview-item-details>.item-icon{width:64px;height:64px}
+.hide-check>.listview-item-list>.listview-item>.listview-item-details>.item-check{display:none}
+.listview-list>.listview-item-list>.listview-item:hover>.listview-item-details{background-color:rgba(0,31,255,.08)}
+.listview-list>.listview-item-list>.listview-item.active{background-color:rgba(0,31,255,.16)}
+.listview-list>.listview-item-list>.listview-item.active+.listview-item,.listview-list>.listview-item-list>.listview-item.active,.listview-list>.listview-item-list>.listview-item:hover{border-top-color:rgba(0,31,255,.2)}
+.listview-list>.listview-item-list>.listview-item:last-child.active,.listview-list>.listview-item-list>.listview-item:hover:last-child{border-bottom-color:rgba(0,31,255,.2)}
+.drag-selector{position:absolute;z-index:1011;top:0;left:0;display:none;width:100px;height:100px;outline:1px solid rgba(0,31,255,.3);background-color:rgba(0,31,255,.15)}
+.drag-selector.show{display:block}

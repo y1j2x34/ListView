@@ -12,13 +12,16 @@ var uglify = require("gulp-uglify");
 var sourcemap = require("gulp-sourcemaps");
 var requirejsOptimize = require("gulp-requirejs-optimize");
 
+var uglifycss = require("gulp-uglifycss");
+
 var opts = require("./gulp.options.json");
 var amdOptions = require("./amd.options.json");
 
 gulp.task("webserver", webserverTask);
 gulp.task("validatejs", validatejsTask);
 gulp.task("optimizejs", ["validatejs"], optimizejsTask);
-gulp.task("default", ["optimizejs"]);
+gulp.task("compressCss", compressCssTask);
+gulp.task("default", ["optimizejs", "compressCss"]);
 
 
 function webserverTask() {
@@ -39,7 +42,16 @@ function validatejsTask() {
         .pipe(jshint.reporter("default"))
         .pipe(exitOnJshintError);
 }
-
+function compressCssTask(){
+    gulp
+        .src("src/style/listview.css")
+        .pipe(uglifycss({
+            maxLineLen:70,
+            uglyComments: true
+        }))
+        .pipe(rename("listview.min.css"))
+        .pipe(gulp.dest(opts.optimize.dest));
+}
 function optimizejsTask() {
     var optimizeOptions = opts.optimize;
 

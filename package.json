@@ -1,7 +1,7 @@
 {
   "name": "ListView",
   "version": "1.0.0",
-  "description": "资源管理器",
+  "description": "listview",
   "main": "gulpfile.js",
   "directories": {
     "example": "example"
@@ -18,7 +18,7 @@
     "jquery"
   ],
   "author": "y1j2x34",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/y1j2x34/ListView/issues"
   },
@@ -31,6 +31,7 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sourcemaps": "^2.4.1",
     "gulp-uglify": "^2.1.0",
+    "gulp-uglifycss": "^1.0.6",
     "gulp-webserver": "^0.9.1",
     "map-stream": "0.0.6"
   }
